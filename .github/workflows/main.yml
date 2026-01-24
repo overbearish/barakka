@@ -2,13 +2,15 @@ name: daily-quran-reading
 
 on:
   schedule:
-    # Berjalan setiap hari sekali pada pukul 00:00 UTC
+    # Berjalan otomatis setiap hari sekali (00:00 UTC)
     - cron: '0 0 * * *'
-  workflow_dispatch:
+  workflow_dispatch: # Agar bisa dijalankan manual kapan saja
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Izin untuk melakukan commit agar akun tampak aktif
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,11 +20,21 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Execute Reading
+      - name: Execute Reading and Create Report
         run: python script.py
+
+      - name: Commit Action to GitHub Profile
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add log.txt
+          git commit -m "Laporan Harian: Pembacaan & Doa untuk Keluarga" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Send ntfy notification
         if: success()
         run: |
-          curl -d "Pembacaan Surah harian telah selesai dan diniatkan untuk keluarga." \
+          curl -d "Pembacaan harian & doa ampunan selesai. Akun GitHub aktif diperbarui." \
                ntfy.sh/NTFY_TOPIC
