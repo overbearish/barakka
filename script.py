@@ -19,31 +19,38 @@ def main():
     ]
     
     surah = random.choice(surat_list)
+    
+    # Daftar Keluarga yang didoakan
     keluarga = [
         "Ayahanda Mahmud Nur", "Ibunda Sitti Salmah", "Ayahanda Rahman Mahmud", 
         "Ibunda Nurhayati Zubair", "Adinda Muhammad Ikram", "Kakanda Zakaria Sasilia", 
-        "Ibunda Sitti Sarah", "Ibunda Hatijah", "Ibunda Banunah"
+        "Ibunda Sitti Sarah", "Ibunda Hatijah", "Ibunda Banunah",
+        "Puang Hayat", "Puang Beda", "Puang Tiwi", "Puang Halla", 
+        "Puang Edah", "Puang Ramlan", "Puang Nikmah"
     ]
     
-    doa_ampunan = "\n\"Ya Allah, ampunilah dosa-dosa mereka, kasihanilah mereka, sejahterakanlah mereka, dan maafkanlah kesalahan mereka.\"\n"
+    doa_ampunan = "\n\"Ya Allah, ampunilah dosa-dosa mereka, kasihanilah mereka, sejahterakanlah mereka, maafkanlah kesalahan mereka, dan muliakanlah tempat tinggal mereka di sisi-Mu.\"\n"
 
-    print("--- Memulai Eksekusi Pembacaan Harian ---")
-    print(f"Surah Terpilih: {surah['nama']}\n")
-    print("Niat dikirimkan pahalanya untuk:")
+    print("--- Memulai Eksekusi Pembacaan & Doa Harian ---")
+    print(f"Surah: {surah['nama']}\n")
+    print("Niat dan doa ampunan dikirimkan untuk:")
+    
+    # Menampilkan daftar nama dengan efek tenang
     for nama in keluarga:
         print(f"- {nama}")
     
     print(doa_ampunan)
     
-    # Efek Getaran Digital
+    # Simulasi Getaran Digital Pembacaan Ayat
+    print("Membaca ayat:")
     for verse in surah['ayat']:
         digital_vibration(verse, 0.15)
         time.sleep(0.5)
 
-    # Membuat/Mengupdate Laporan TXT
+    # Mencatat ke Laporan TXT untuk kontribusi GitHub
     waktu_sekarang = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     with open("log.txt", "a", encoding="utf-8") as f:
-        f.write(f"[{waktu_sekarang}] Pembacaan Surah {surah['nama']} selesai. Diniatkan untuk keluarga.\n")
+        f.write(f"[{waktu_sekarang}] Pembacaan Surah {surah['nama']} & Doa Ampunan selesai untuk {len(keluarga)} anggota keluarga.\n")
 
 if __name__ == "__main__":
     main()
